@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        .main {
+            width: 50vw;
+            height: 60vh;
+            margin: 10px auto;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.418);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1 class="display"></h1>
+        <section class="main">
+            <div id="quiz"></div>
+            <button onclick="prevButton()">Prev</button>
+            <button onclick="nextButton()">Next</button>
+            <button onclick="submitQuiz()">Submit</button>
+        </section>
+    </main>
+
+    <script>
+        let arrObj = [
+            {
+                ques: "What is your favorite color?",
+                opt: ["green", "red", "blue", "white", "orange"],
+                correctAnswer: "blue"
+            },
+            {
+                ques: "What is your favorite food?",
+                opt: ["eba", "rice", "fufu", "beans", "noodles"],
+                correctAnswer: "rice"
+            },
+            {
+                ques: "Who is your President?",
+                opt: ["Buhari", "Trump", "Obama", "Merkel", "Putin"],
+                correctAnswer: "Buhari"
+            },
+            {
+                ques: "What is your name?",
+                opt: ["Gbemi", "Temi", "Bola", "Femi", "Lola"],
+                correctAnswer: "Gbemi"
+            },
+            {
+                ques: "What is your favorite Scripture?",
+                opt: ["Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy"],
+                correctAnswer: "Genesis"
+            },
+        ];
+
+        let quiz = document.getElementById("quiz");
+        let index = 0;
+        let userAnswers = new Array(arrObj.length).fill(null);
+
+        function displayQues(index) {
+            quiz.innerHTML = `<h1>${index + 1}. ${arrObj[index].ques}</h1>`;
+            arrObj[index].opt.forEach((el) => {
+                quiz.innerHTML += `<input type="radio" name="answer" value="${el}" onchange="pickAns(event)"> <span>${el}</span><br>`;
+            });
+        }
+
+        function pickAns(event) {
+            userAnswers[index] = event.target.value;
+        }
+
+        function nextButton() {
+            if (index < arrObj.length - 1) {
+                index++;
+                displayQues(index);
+            }
+        }
+
+        function prevButton() {
+            if (index > 0) {
+                index--;
+                displayQues(index);
+            }
+        }
+
+        function calculateScore() {
+            let score = 0;
+            for (let i = 0; i < arrObj.length; i++) {
+                if (userAnswers[i] === arrObj[i].correctAnswer) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        function submitQuiz() {
+            let score = calculateScore();
+            alert(`Your Score: ${score} out of ${arrObj.length}`);
+        }
+
+        // Initialize the quiz
+        displayQues(index);
+    </script>
+</body>
+</html>
